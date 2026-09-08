@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="300">
   <link rel="icon" href="data:,">
-  <title>System Processes</title>
+  <title>2441.18 0.0421 110432</title>
   <style>
     :root { color-scheme: dark; font-family: Consolas, "Courier New", monospace; }
     * { box-sizing: border-box; }
@@ -34,72 +35,17 @@
     <section class="panel">
       <div class="metrics-header">System Processes</div>
       <div class="eyebrow">runtime load / stack activity / cache throughput / sync accuracy</div>
-      <div class="metric-grid" id="metrics"></div>
+      <div class="metric-grid" id="metrics"><div class="metric"><div class="metric-name">CORE</div><div class="metric-value accent-core">110,432</div><div class="subtle">compiled code lines</div></div><div class="metric"><div class="metric-name">STACK</div><div class="metric-value accent-stack">wstETH 2,441.18</div><div class="subtle">linked source files</div></div><div class="metric"><div class="metric-name">CACHE</div><div class="metric-value accent-cache">BTC-LINK 0.0421</div><div class="subtle">rendered image assets</div></div><div class="metric"><div class="metric-name">SYNC</div><div class="metric-value accent-sync">26.0 69.5</div><div class="subtle">compiler accuracy</div></div></div>
     </section>
     <section class="terminals">
-      <div class="panel"><div class="terminal-title" id="terminal-a-title">-</div><pre id="terminal-a"></pre></div>
-      <div class="panel"><div class="terminal-title" id="terminal-b-title">-</div><pre id="terminal-b"></pre></div>
+      <div class="panel"><div class="terminal-title">proc-worker-01</div><pre>[12:00:01] job queue drained
+[12:00:09] snapshot published</pre></div>
+      <div class="panel"><div class="terminal-title">proc-worker-02</div><pre>[12:00:02] chunk index rebuilt
+[12:00:11] no drift detected</pre></div>
     </section>
-    <section class="panel bar" id="wallet-bar">pool probe warming up</section>
-    <section class="panel status"><span id="status-left">SYNC idle</span><span id="status-center">debug-python --watch feeds</span><span id="status-right">sync monitor armed</span></section>
+    <section class="panel bar">procs demo 3 pools tracked</section>
+    <section class="panel status"><span style="">SYNC ok</span><span>debug-python --watch feeds</span><span>sync monitor armed</span></section>
+    <section class="panel bar" id="generated-bar">generated 2026-09-08 17:50:13 UTC</section>
   </main>
-  <script>
-    // Static demo snapshot standing in for the live /api/snapshot feed.
-    const demoSnapshot = {
-      metrics: [
-        { name: "Runtime Load", value: "62.4 pct", subtle: "avg over 5m window" },
-        { name: "Stack Activity", value: "wstETH 2,441.18", subtle: "last sync 12s ago" },
-        { name: "Cache Throughput", value: "BTC-LINK 0.0421", subtle: "148 req/s" },
-        { name: "Sync Accuracy", value: "99.982 pct", subtle: "drift 0.6 bps" }
-      ],
-      terminal_a_title: "proc-worker-01",
-      terminal_b_title: "proc-worker-02",
-      terminal_a_lines: [
-        "[12:00:01] job queue drained",
-        "[12:00:04] cache warm ok",
-        "[12:00:09] snapshot published",
-        "[12:00:14] heartbeat ok"
-      ],
-      terminal_b_lines: [
-        "[12:00:02] chunk index rebuilt",
-        "[12:00:06] enrich pass complete",
-        "[12:00:11] no drift detected",
-        "[12:00:15] heartbeat ok"
-      ],
-      wallet_bar: "pool probe demo-0xabc...def 3 pools tracked",
-      backfill_blocked: false,
-      status_left: "SYNC ok",
-      status_center: "debug-python --watch feeds",
-      status_right: "sync monitor armed"
-    };
-
-    const metricClasses = ['accent-core', 'accent-stack', 'accent-cache', 'accent-sync'];
-    function render(snapshot) {
-      const metricsData = snapshot.metrics || [];
-      const wstPrice = (metricsData[1]?.value || '').trim().split(/\s+/)[1] || '';
-      const btcInLink = (metricsData[2]?.value || '').trim().split(/\s+/)[1] || '';
-      const btcPrice = (metricsData[0]?.value || '').trim();
-      document.title = [wstPrice, btcInLink, btcPrice].filter(Boolean).join(' ').replaceAll(',', '') || 'System Processes';
-      const metrics = document.getElementById('metrics');
-      metrics.replaceChildren(...metricsData.map((metric, index) => {
-        const card = document.createElement('div'); card.className = 'metric';
-        const name = document.createElement('div'); name.className = 'metric-name'; name.textContent = metric.name;
-        const value = document.createElement('div'); value.className = `metric-value ${metricClasses[index] || ''}`; value.textContent = metric.value;
-        const subtle = document.createElement('div'); subtle.className = 'subtle'; subtle.textContent = metric.subtle;
-        card.append(name, value, subtle); return card;
-      }));
-      document.getElementById('terminal-a-title').textContent = snapshot.terminal_a_title || '-';
-      document.getElementById('terminal-b-title').textContent = snapshot.terminal_b_title || '-';
-      document.getElementById('terminal-a').textContent = (snapshot.terminal_a_lines || []).join('\n');
-      document.getElementById('terminal-b').textContent = (snapshot.terminal_b_lines || []).join('\n');
-      document.getElementById('wallet-bar').textContent = snapshot.wallet_bar || '';
-      const statusLeft = document.getElementById('status-left');
-      statusLeft.textContent = (snapshot.backfill_blocked ? '● ' : '') + (snapshot.status_left || '');
-      statusLeft.style.color = snapshot.backfill_blocked ? '#ff4d4d' : '';
-      document.getElementById('status-center').textContent = snapshot.status_center || '';
-      document.getElementById('status-right').textContent = snapshot.status_right || '';
-    }
-    render(demoSnapshot);
-  </script>
 </body>
 </html>
