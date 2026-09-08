@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>System Processes</title>
+  <style>
+    :root { color-scheme: dark; font-family: Consolas, "Courier New", monospace; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; background: #08111b; color: #d8e6f7; }
+    main { max-width: 1500px; min-height: 100vh; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+    .panel { background: #0e1726; border: 1px solid #20314a; border-radius: 14px; padding: 14px; }
+    .metrics-header { font-family: sans-serif; font-size: 16px; font-weight: 700; }
+    .eyebrow, .metric-name, .subtle { color: #7f97b2; text-transform: uppercase; }
+    .eyebrow { margin-top: 14px; font-size: 11px; letter-spacing: 1px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+    .metric { min-height: 136px; padding: 16px; background: #101c2d; border: 1px solid #20314a; border-radius: 14px; }
+    .metric-name { font: 700 12px sans-serif; }
+    .metric-value { margin-top: 14px; font-size: clamp(28px, 5vw, 54px); font-weight: 800; overflow-wrap: anywhere; }
+    .subtle { margin-top: 12px; font: 11px sans-serif; text-transform: none; }
+    .accent-core { color: #52e3c2; } .accent-stack { color: #6ce0ff; } .accent-cache { color: #f7c35f; } .accent-sync { color: #ff8a5b; }
+    .terminals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .terminal-title { margin-bottom: 10px; font: 700 16px sans-serif; overflow-wrap: anywhere; }
+    pre { height: 190px; margin: 0; overflow: auto; padding: 0 4px; color: #d8e6f7; font: 13px/1.55 Consolas, "Courier New", monospace; white-space: pre; }
+    .bar { display: flex; align-items: center; min-height: 36px; color: #d8e6f7; font-size: 11px; overflow-x: auto; white-space: nowrap; }
+    .status { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; }
+    .status span:last-child { text-align: right; }
+    @media (max-width: 720px) { main { padding: 12px; } .metric-grid, .terminals { grid-template-columns: 1fr; } .status { grid-template-columns: 1fr; gap: 5px; } .status span:last-child { text-align: left; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel">
+      <div class="metrics-header">System Processes</div>
+      <div class="eyebrow">runtime load / stack activity / cache throughput / sync accuracy</div>
+      <div class="metric-grid" id="metrics"></div>
+    </section>
+    <section class="terminals">
+      <div class="panel"><div class="terminal-title" id="terminal-a-title">-</div><pre id="terminal-a"></pre></div>
+      <div class="panel"><div class="terminal-title" id="terminal-b-title">-</div><pre id="terminal-b"></pre></div>
+    </section>
+    <section class="panel bar" id="wallet-bar">pool probe warming up</section>
+    <section class="panel status"><span id="status-left">SYNC idle</span><span id="status-center">debug-python --watch feeds</span><span id="status-right">sync monitor armed</span></section>
+  </main>
+  <script>
+    // Static demo snapshot standing in for the live /api/snapshot feed.
+    const demoSnapshot = {
+      metrics: [
+        { name: "Runtime Load", value: "62.4 pct", subtle: "avg over 5m window" },
+        { name: "Stack Activity", value: "wstETH 2,441.18", subtle: "last sync 12s ago" },
+        { name: "Cache Throughput", value: "BTC-LINK 0.0421", subtle: "148 req/s" },
+        { name: "Sync Accuracy", value: "99.982 pct", subtle: "drift 0.6 bps" }
+      ],
+      terminal_a_title: "proc-worker-01",
+      terminal_b_title: "proc-worker-02",
+      terminal_a_lines: [
+        "[12:00:01] job queue drained",
+        "[12:00:04] cache warm ok",
+        "[12:00:09] snapshot published",
+        "[12:00:14] heartbeat ok"
+      ],
+      terminal_b_lines: [
+        "[12:00:02] chunk index rebuilt",
+        "[12:00:06] enrich pass complete",
+        "[12:00:11] no drift detected",
+        "[12:00:15] heartbeat ok"
+      ],
+      wallet_bar: "pool probe demo-0xabc...def 3 pools tracked",
+      backfill_blocked: false,
+      status_left: "SYNC ok",
+      status_center: "debug-python --watch feeds",
+      status_right: "sync monitor armed"
+    };
+
+    const metricClasses = ['accent-core', 'accent-stack', 'accent-cache', 'accent-sync'];
+    function render(snapshot) {
+      const metricsData = snapshot.metrics || [];
+      const wstPrice = (metricsData[1]?.value || '').trim().split(/\s+/)[1] || '';
+      const btcInLink = (metricsData[2]?.value || '').trim().split(/\s+/)[1] || '';
+      const btcPrice = (metricsData[0]?.value || '').trim();
+      document.title = [wstPrice, btcInLink, btcPrice].filter(Boolean).join(' ').replaceAll(',', '') || 'System Processes';
+      const metrics = document.getElementById('metrics');
+      metrics.replaceChildren(...metricsData.map((metric, index) => {
+        const card = document.createElement('div'); card.className = 'metric';
+        const name = document.createElement('div'); name.className = 'metric-name'; name.textContent = metric.name;
+        const value = document.createElement('div'); value.className = `metric-value ${metricClasses[index] || ''}`; value.textContent = metric.value;
+        const subtle = document.createElement('div'); subtle.className = 'subtle'; subtle.textContent = metric.subtle;
+        card.append(name, value, subtle); return card;
+      }));
+      document.getElementById('terminal-a-title').textContent = snapshot.terminal_a_title || '-';
+      document.getElementById('terminal-b-title').textContent = snapshot.terminal_b_title || '-';
+      document.getElementById('terminal-a').textContent = (snapshot.terminal_a_lines || []).join('\n');
+      document.getElementById('terminal-b').textContent = (snapshot.terminal_b_lines || []).join('\n');
+      document.getElementById('wallet-bar').textContent = snapshot.wallet_bar || '';
+      const statusLeft = document.getElementById('status-left');
+      statusLeft.textContent = (snapshot.backfill_blocked ? '● ' : '') + (snapshot.status_left || '');
+      statusLeft.style.color = snapshot.backfill_blocked ? '#ff4d4d' : '';
+      document.getElementById('status-center').textContent = snapshot.status_center || '';
+      document.getElementById('status-right').textContent = snapshot.status_right || '';
+    }
+    render(demoSnapshot);
+  </script>
+</body>
+</html>
