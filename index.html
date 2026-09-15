@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="refresh" content="300">
   <link rel="icon" href="data:,">
-  <title>2999 31.40 a30.68 75700</title>
+  <title>2977 31.60 a19.22 75630</title>
   <style>
     :root { color-scheme: dark; font-family: Consolas, "Courier New", monospace; }
     * { box-sizing: border-box; }
@@ -35,10 +35,10 @@
     <section class="panel">
       <div class="metrics-header">System Processes</div>
       <div class="eyebrow">runtime load / stack activity / cache throughput / sync accuracy</div>
-      <div class="metric-grid" id="metrics"><div class="metric"><div class="metric-name">CORE</div><div class="metric-value accent-core">75,700 31.40</div><div class="subtle">compiled code lines</div></div><div class="metric"><div class="metric-name">STACK</div><div class="metric-value accent-stack">2,410 2,999 215.8</div><div class="subtle">linked source files</div></div><div class="metric"><div class="metric-name">CACHE</div><div class="metric-value accent-cache">11.17 6,777</div><div class="subtle">rendered image assets</div></div><div class="metric"><div class="metric-name">SYNC</div><div class="metric-value accent-sync">33.70 30.68</div><div class="subtle">compiler accuracy</div></div></div>
+      <div class="metric-grid" id="metrics"><div class="metric"><div class="metric-name">CORE</div><div class="metric-value accent-core">75,630 31.60</div><div class="subtle">compiled code lines</div></div><div class="metric"><div class="metric-name">STACK</div><div class="metric-value accent-stack">2,393 2,977 216.2</div><div class="subtle">linked source files</div></div><div class="metric"><div class="metric-name">CACHE</div><div class="metric-value accent-cache">11.07 6,834</div><div class="subtle">rendered image assets</div></div><div class="metric"><div class="metric-name">SYNC</div><div class="metric-value accent-sync">32.84 19.22</div><div class="subtle">compiler accuracy</div></div></div>
     </section>
     <section class="terminals">
-      <div class="panel"><div class="terminal-title">Total: 45.08, Final: 1933, Vs: 60384, Delta: -0.28</div><pre>[boot] console A attached
+      <div class="panel"><div class="terminal-title">Total: 45.08, Final: 1933, Vs: 61123, Delta: -0.39</div><pre>[boot] console A attached
 [boot] core stack online
 [boot] awaiting heartbeat...
 - 7 days ago -
@@ -194,8 +194,13 @@ history 15:12 ➡️ 2,809 crux -&gt; 0.890 wwest @ 3156.19 crux/wwest
 ➡️ move 3,000 user -&gt; 0.985 wwest @ 0 wwest/user
 16:15 Control 34.16%. 41,204*3.33 lines ready; 2,445 excuses, 3,042 miracles.
 16:26 Control 34.04%. 40,433*3.38 lines ready; 2,439 excuses, 3,035 miracles.
-16:38 Control 33.81%. 40,433*3.38 lines ready; 2,425 excuses, 3,017 miracles.</pre></div>
-      <div class="panel"><div class="terminal-title">Total: 0.208 + 0.48, Final: 98926, Vs: 3150, Delta: +2.44</div><pre>[boot] console B attached
+16:38 Control 33.81%. 40,433*3.38 lines ready; 2,425 excuses, 3,017 miracles.
+16:41 Control 33.62%. 39,731*3.42 lines ready; 2,410 excuses, 2,999 miracles.
+16:44 Control 33.39%. 39,035*3.46 lines ready; 2,418 excuses, 3,008 miracles.
+16:47 Control 33.21%. 39,035*3.46 lines ready; 2,408 excuses, 2,996 miracles.
+16:50 Control 33.02%. 39,035*3.46 lines ready; 2,405 excuses, 2,992 miracles.
+16:52 Control 32.84%. 37,963*3.53 lines ready; 2,393 excuses, 2,977 miracles.</pre></div>
+      <div class="panel"><div class="terminal-title">Total: 0.228 + 0.48, Final: 90168, Vs: 2853, Delta: +2.43</div><pre>[boot] console B attached
 [boot] cache sync online
 [boot] awaiting heartbeat...
 11:41 Two hold at 26.23%. 14,164*2.62 plans; 77,800 chaos lines, 11.36 mad ducks.
@@ -411,11 +416,12 @@ history 15:20 ➡️ 1,965 user -&gt; 0.0254 byte @ 77337.73 user/byte
 16:08 Two hold at 29.18%. 10,456*2.52 plans; 76,294 chaos lines, 11.32 mad ducks.
 ➡️ move 3,000 user -&gt; 0.985 wwest @ 0 wwest/user
 16:32 Two hold at 29.86%. 10,540*2.5 plans; 76,176 chaos lines, 11.28 mad ducks.
-16:41 Two hold at 30.68%. 10,640*2.48 plans; 75,700 chaos lines, 11.17 mad ducks.</pre></div>
+16:41 Two hold at 30.68%. 10,640*2.48 plans; 75,700 chaos lines, 11.17 mad ducks.
+16:52 Two hold at 19.22%. 9,126*2.89 plans; 75,630 chaos lines, 11.07 mad ducks.</pre></div>
     </section>
-    <section class="panel bar">crux 0  wwest 0.000 (-0.646)  echo 0.068  byte 0.0000  user 0 (-3,000)  west 0.000  lint 0.0  rss 164 (-3,477.86)</section>
-    <section class="panel status"><span style="">process scanner active | history complete</span><span>--flush 16:41:35 --mirror 16:33:04 --tick 16:41:20 --version 0.1.8</span><span>data stream synced</span></section>
-    <section class="panel bar" id="generated-bar">generated 2026-09-15 14:41:36 UTC &middot; next refresh in <span id="refresh-countdown">300</span>s</section>
+    <section class="panel bar">crux 0  wwest 0.000  echo 0.068  byte 0.0200 (+0.0200)  user 0  west 0.000  lint 0.0  rss 1,675 (-1,961.35)</section>
+    <section class="panel status"><span style="">runtime snapshot ready | history complete</span><span>--flush 16:52:35 --mirror 16:41:39 --tick 16:52:21 --version 0.1.8</span><span>data stream synced</span></section>
+    <section class="panel bar" id="generated-bar">generated 2026-09-15 14:52:42 UTC &middot; next refresh in <span id="refresh-countdown">300</span>s</section>
     <section class="panel" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
       <div id="site-qr"></div>
       <a class="eyebrow" style="text-decoration:none;" href="https://rkorin.github.io/">https://rkorin.github.io/</a>
